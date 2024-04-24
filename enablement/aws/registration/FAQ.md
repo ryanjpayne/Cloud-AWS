@@ -1,4 +1,4 @@
 ![](https://raw.githubusercontent.com/CrowdStrike/falconpy/main/docs/asset/cs-logo.png)
 
 # Cloud Security Lab Series
-## AWS Onboarding 101
+## AWS CSPM Registration FAQ
