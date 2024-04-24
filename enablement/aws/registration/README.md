@@ -22,6 +22,6 @@ For more info, see [API clients](https://falcon.crowdstrike.com/documentation/pa
 ### Table of Contents
 [Chapter 1 - What is AWS CSPM Registration?](guide/chapter1.md)
 [Chapter 2 - Using the cspm-registration API](guide/chapter2.md)
-[Chapter 3](guide/chapter3.md)
+[Chapter 3 - Guided Registration via Falcon Console](guide/chapter3.md)
 [Chapter 4](guide/chapter4.md)
 [Chapter 5](guide/chapter5.md)

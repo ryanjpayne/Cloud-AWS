@@ -16,7 +16,7 @@ Before we dive into how registration works, it is important to understand what i
 
 In this example both accounts are registered but only solar-lab has been onboarded.
 
-![](https://raw.githubusercontent.com/ryanjpayne/Cloud-AWS/enablement/aws/registration/images/ch1-inactive-active.png)
+![](../images/ch1-inactive-active.png)
 
 In this case the inactive account `cscbte` could be in one of the following states:
 1. The account was registered and onboarded recently, the health check needs more time to pass.
