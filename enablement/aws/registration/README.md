@@ -6,7 +6,8 @@
 ### Requirements
 One or more of these subscriptions:
 - Falcon Cloud Security
-- Falcon Cloud Security with Containers  
+- Falcon Cloud Security with Containers
+
 One or more of these default roles:
 - Falcon Administrator
 - Cloud Security Manager
