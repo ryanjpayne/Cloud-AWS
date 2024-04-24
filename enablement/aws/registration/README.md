@@ -6,7 +6,7 @@
 ### Requirements
 One or more of these subscriptions:
 - Falcon Cloud Security
-- Falcon Cloud Security with Containers
+- Falcon Cloud Security with Containers  
 One or more of these default roles:
 - Falcon Administrator
 - Cloud Security Manager
@@ -20,8 +20,8 @@ For more info, see [API clients](https://falcon.crowdstrike.com/documentation/pa
 **Note**: A CSPM Admin or CSPM Analyst must obtain the API credentials from a Falcon Administrator to successfully register a cloud account.
 
 ### Table of Contents
-[Chapter 1 - What is AWS CSPM Registration?](guide/chapter1.md)
-[Chapter 2 - Using the cspm-registration API](guide/chapter2.md)
-[Chapter 3 - Guided Registration via Falcon Console](guide/chapter3.md)
-[Chapter 4](guide/chapter4.md)
-[Chapter 5](guide/chapter5.md)
+- [Chapter 1 - What is AWS CSPM Registration?](guide/chapter1.md)
+- [Chapter 2 - Using the cspm-registration API](guide/chapter2.md)
+- [Chapter 3 - Guided Registration via Falcon Console](guide/chapter3.md)
+- [Chapter 4](guide/chapter4.md)
+- [Chapter 5](guide/chapter5.md)
