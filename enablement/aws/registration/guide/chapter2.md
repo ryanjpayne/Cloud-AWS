@@ -21,17 +21,25 @@ Make sure you are currently logged into the Falcon console, then navigate to the
 [EU-1](https://assets.falcon.eu-1.crowdstrike.com/support/api/swagger-eu.html)
 
 **Authenticate with your Falcon API Credentials**
-1. Click Authorize on the right  
-![](../images/swagger-authorize.png)  
-2. In the oath2 section, enter your Falcon API credentials and click Authorize  
-![](../images/swagger-oath.png)  
+1. Click Authorize on the right
+
+![](../images/swagger-authorize.png)
+
+2. In the oath2 section, enter your Falcon API credentials and click Authorize
+
+![](../images/swagger-oath.png)
+
 3. click close
 
 **Review the cspm-registration API**
-1. Scroll down to cspm-registration  
-![](../images/cspm-registration-api-list.png)  
-2. Click on POST and review the body of the API call.  
-![](../images/cspm-registration-api-body.png)  
+1. Scroll down to cspm-registration
+
+![](../images/cspm-registration-api-list.png)
+
+2. Click on POST and review the body of the API call.
+
+![](../images/cspm-registration-api-body.png)
+
 3. attribute details
 
 |attribute|description|type|valid values|
@@ -47,7 +55,7 @@ Make sure you are currently logged into the Falcon console, then navigate to the
 |target_ous|AWS Organization OUs to register|array of string|List of AWS Organization OUs eg. [ “ou-abcd-1234”, “ou-defg-5678”]|
 |use_existing_cloudtrail|Whether to use existing CloudTrail for ReadOnly IOAs|bool|true or false|
 
-#### Try it out
+### Try it out
 1. click **Try it out** and modify the body to match the below configuration
 ```
 {
@@ -63,17 +71,24 @@ Make sure you are currently logged into the Falcon console, then navigate to the
   ]
 }
 ```
-2. Navigate back to CloudShare and click **AWS Console**  
-![](../images/open-aws-console.png)  
-3. In the AWS Console, click your IAM Role in the top right.  Then click the copy icon next to the account id.  
-![](../images/aws-copy-accountid.png)  
+2. Navigate back to CloudShare and click **AWS Console**
+
+![](../images/open-aws-console.png)
+
+3. In the AWS Console, click your IAM Role in the top right.  Then click the copy icon next to the account id.
+
+![](../images/aws-copy-accountid.png)
+
 4. Navigate back to Swagger, Replace `$my_account_id` with the account id you copied in step 2.
-5. Click **Execute**  
-![](../images/swagger-execute.png)  
-6. Scroll down to view the response `Code 201: Created`  
+5. Click **Execute**
+
+![](../images/swagger-execute.png)
+
+6. Scroll down to view the response `Code 201: Created`
+
 ![](../images/swagger-response.png)  
 
-#### Review the API Response
+### Review the API Response
 In the body of your response you will see many attributes relevant to the registration process.  For the purposes of this lab we will focus on a few key attributes.
 |attribute|purpose|
 |---|---|
@@ -92,11 +107,13 @@ From this page we can confirm a few details about this account:
 2. IOAs were enabled during registration because it shows Inactive
 3. OneClick was not enabled during registration because it shows "Set up"
 
-#### Cleanup
+### Cleanup
 **Before you proceed:** please deprovision the account we just registered.
 1. Tick the check box next to your AWS Account ID
-2. Click Deprovision in the upper right.  
-![](../images/api-cleanup.png)  
+2. Click Deprovision in the upper right.
+
+![](../images/api-cleanup.png)
+
 3. Click Confirm
 4. Ignore the “To remove Cloud Security Posture resources from your AWS environment, do the following:” page and click close.  We don’t need that step because no resources have been provisioned.
 
