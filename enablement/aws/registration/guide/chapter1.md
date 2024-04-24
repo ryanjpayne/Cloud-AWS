@@ -1,6 +1,6 @@
-# Cloud Security Lab Series
-## AWS CSPM Registration 101
-### Chapter 1 - What is AWS CSPM Registration?
+Cloud Security Lab Series
+# AWS CSPM Registration 101
+## Chapter 1 - What is AWS CSPM Registration?
 
 CSPM Registration refers to the process of granting limited, read-only access to your cloud account to enable CrowdStrike Cloud Security features such as:
 - Configuration Assessments: monitor for indicators of misconfiguration (IOM) that could pose a security risk or violate compliance controls.

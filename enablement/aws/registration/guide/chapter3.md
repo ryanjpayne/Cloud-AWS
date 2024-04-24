@@ -1,6 +1,6 @@
-# Cloud Security Lab Series
-## AWS CSPM Registration 101
-### Chapter 3 - Guided Registration via Falcon Console
+Cloud Security Lab Series
+# AWS CSPM Registration 101
+## Chapter 3 - Guided Registration via Falcon Console
 
 Now that we understand how the API works, we can review how most customers will onboard their AWS Accounts: Guided Registration via the Falcon Console.  
 

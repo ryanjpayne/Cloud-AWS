@@ -1,6 +1,6 @@
-# Cloud Security Lab Series
-## AWS CSPM Registration 101
-### Chapter 2 - Using the cspm-registration API
+Cloud Security Lab Series
+# AWS CSPM Registration 101
+## Chapter 2 - Using the cspm-registration API
 
 To understand how CSPM registration actually works, we first need to review the registration API endpoint.  Regardless of the registration method your customer chooses (bash, terraform, single account, org, etc.), our OAuth2-Based API endpoint for CSPM Registration is called to make the magic happen:
 `/cloud-connect-cspm-aws/entities/account/v1`
