@@ -54,7 +54,7 @@
           "true",
           "false"
         ],
-        "Default": "false"
+        "Default": "true"
       },
       "ClientID": {
         "Type": "String",
