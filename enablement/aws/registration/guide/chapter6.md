@@ -36,14 +36,14 @@ It is important to understand what a stackset is to easily troubleshoot it in th
 This is important to understand to aid in troubleshooting.  Let's say you run the Bash and it fails with a vague error message or succeeds but everything still shows inactive in the Falcon console.  You do not need to rely on the bash output to troubleshoot.  Log into the Org Management account and review the following items:
 
 - Management Account
--- CrowdStrike-CSPM-Integration Stack
---- Events
--- CrowdStrike-CSPM-Integration Stackset (or any other stackset for that matter)
---- Stack Instances
----- Status Reason for each Region/Account
-- Switch role into an Account that failed in the Stackset
--- CrowdStrike-CSPM-Integration Stack
---- Events
+- - CrowdStrike-CSPM-Integration Stack
+- - - Events
+- - CrowdStrike-CSPM-Integration Stackset (or any other stackset for that matter)
+- - - Stack Instances
+- - - - Status Reason for each Region/Account
+- - Switch role into an Account that failed in the Stackset
+- - - CrowdStrike-CSPM-Integration Stack
+- - - - Events
 
 You will get much more context by looking at the events in each stack!
 
