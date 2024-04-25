@@ -1,6 +1,6 @@
 Cloud Security Lab Series
 # AWS CSPM Registration 101
-## Chapter 3 - Using a Custom Template
+## Chapter 4 - Using a Custom Template
 
 In this lab we will use a custom template to address the need for a Permissions Boundary attached to all roles which will resolve the failed onboarding phase and complete registration.  But there are many reasons why a customer may want to use an open-source CloudFormation template.  They may want to add tags to every resource, change the name of the EventBridge IAM Role or simply have the code stored in their source control.
 
