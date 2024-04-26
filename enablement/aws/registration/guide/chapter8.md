@@ -1,8 +1,10 @@
 Cloud Security Lab Series
 # AWS CSPM Registration 101
-## Chapter 8 - Complete
+## Chapter 8 - Cleanup
 
-Thank you for completing the AWS CSPM Registration 101 Lab.
+Please delete your CloudFormation Stacks and Deregister you AWS Account from the Falcon Console.  This will aide in maintaining a clean environment for future labs.
+
+Thank you for completing the AWS CSPM Registration 101 Lab!
 
 [Submit a Request or Report an Issue]()
 
