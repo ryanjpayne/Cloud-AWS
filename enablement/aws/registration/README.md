@@ -27,3 +27,7 @@ For more info, see [API clients](https://falcon.crowdstrike.com/documentation/pa
 - [Chapter 4 - Using a Custom template](guide/chapter4.md)
 - [Chapter 5 - CSPM Architecture](guide/chapter5.md)
 - [Chapter 6 - Organization Registration](guide/chapter6.md)
+- [Chapter 7 - Multiple Account Registration](guide/chapter7.md)
+
+### Questions or concerns?
+If you encounter any issues or have questions about this repository, please open an [issue]().
