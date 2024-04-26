@@ -47,6 +47,10 @@ This is important to understand to aid in troubleshooting.  Let's say you run th
 
 You will get much more context by looking at the events in each stack!
 
+### A note on CIDs
+
+When you register the AWS organization, every AWS Account in the org is registered to the CID.  If you need to register accounts within the same AWS Organization to multiple CIDs, please review the Multiple Account method in the next chapter.
+
 [Continue to Chapter 7](./chapter7.md)
 
 [Back to Table of Contents](../README.md)
