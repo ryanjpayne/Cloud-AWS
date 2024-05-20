@@ -33,7 +33,7 @@ locals {
 	#cstag-business             = local.config.tags.department
 	#cstag-department           = local.config.tags.department_code
 	#cstag-accounting           = local.config.tags.accounting
-    cstag-owner                = "ryan.payne"
+    cstag-owner                = "ali."
     cstag-business             = "Sales"
     cstag-department           = "Sales - 310000"
     cstag-accounting           = "dev"
@@ -53,6 +53,18 @@ data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
 
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+
+output "caller_arn" {
+  value = data.aws_caller_identity.current.arn
+}
+
+output "caller_user" {
+  value = data.aws_caller_identity.current.user_id
+}
+
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -68,7 +80,7 @@ data "http" "encounter_metadata" {
 
 resource "aws_iam_saml_provider" "default" {
   name                   = "EncounterIdentityProvider"
-  saml_metadata_document = data.http.encounter_metadata.body
+  saml_metadata_document = data.http.encounter_metadata.response_body
 }
 
 data "http" "BoundaryForAdministratorAccess" {
@@ -91,15 +103,80 @@ resource "aws_iam_policy" "EncounterBoundaryPolicy" {
   }, local.required_tags)
 }
 
-data "aws_iam_policy" "EncounterAdminPolicy" {
-  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+resource "aws_iam_policy" "cspm_lab_policy" {
+  name        = "cspm-lab-policy"
+  path        = "/"
+  description = "Least Privilege for Encounter User to complete CSPM Lab"
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListPolicies",
+                "logs:CreateLogStream",
+                "logs:DeleteLogGroup",
+                "iam:ListRoles",
+                "logs:PutRetentionPolicy",
+                "logs:CreateLogGroup",
+                "logs:DeleteLogStream"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:InvokeFunction",
+                "iam:GetRole",
+                "iam:PassRole",
+                "iam:GetPolicy",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:DeleteSecret",
+                "iam:DeletePolicy",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:AttachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:CreatePolicy",
+                "iam:DetachRolePolicy",
+                "iam:DeleteRolePolicy",
+                "lambda:DeleteFunction",
+                "iam:ListRolePolicies",
+                "iam:GetRolePolicy"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:*:function:cs-lambda-registration",
+                "arn:aws:lambda:*:*:function:cs-horizon-sensor-installation-orchestrator",
+                "arn:aws:iam::*:policy/sensor-management-orchestrator-lambda-ssm-send-command",
+                "arn:aws:iam::*:policy/eventbridge-put-events",
+                "arn:aws:iam::*:policy/registration",
+                "arn:aws:iam::*:policy/cspm_config",
+                "arn:aws:iam::*:policy/SecurityAudit",
+                "arn:aws:iam::*:policy/sensor-management-invoke-orchestrator-lambda",
+                "arn:aws:iam::*:role/CrowdStrikeCSPMEventBridge",
+                "arn:aws:iam::*:role/CrowdStrikeSensorManagement",
+                "arn:aws:iam::*:role/CrowdStrikeCSPMReader-*",
+                "arn:aws:iam::*:role/CrowdStrikeSensorManagementOrchestrator",
+                "arn:aws:iam::*:role/CrowdStrikeCSPMRegistration",
+                "arn:aws:secretsmanager:*:*:secret:/CrowdStrike/CSPM/SensorManagement/FalconAPICredential*"
+            ]
+        }
+    ]
+})
 }
 
 resource "aws_iam_role" "EncounterUser" {
   name = "EncounterAdminRole"
   #path = "/Falcon/"
   permissions_boundary = aws_iam_policy.EncounterBoundaryPolicy.arn
-  managed_policy_arns = [data.aws_iam_policy.EncounterAdminPolicy.arn]
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AWSCloudFormationFullAccess",
+    "arn:aws:iam::aws:policy/ReadOnlyAccess",
+
+  ]
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -202,7 +279,7 @@ resource "aws_iam_role" "crowdstrike_bootstrap_role" {
 
 resource "aws_iam_role_policy_attachment" "crowdstrike_bootstrap_policy_attach" {
   role       = "${aws_iam_role.crowdstrike_bootstrap_role.name}"
-  policy_arn = "${data.aws_iam_policy.EncounterAdminPolicy.arn}"
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
 resource "aws_iam_instance_profile" "crowdstrike_bootstrap_profile" {
@@ -309,4 +386,83 @@ resource "aws_instance" "admin" {
     ci-key-username            = local.config.admin.ci_key_username
   }, local.required_tags)
   user_data                    = local.config.admin.public_user_data
+}
+
+# cleanup
+
+resource "aws_secretsmanager_secret" "falcon_secret" {
+  name = "falcon-secret-${random_id.id.id}"
+}
+
+resource "aws_secretsmanager_secret_version" "falcon_secret_version" {
+  secret_id     = aws_secretsmanager_secret.falcon_secret.id
+  secret_string = <<EOF
+{
+  "FalconCloud": "${try(local.config.runtime.falcon.id)}",
+  "FalconClientId": "${try(local.config.runtime.falcon.id)}",
+  "FalconSecret": "${try(local.config.runtime.falcon.secret)}"
+}
+EOF
+}
+
+data "aws_iam_policy_document" "lambda_role_trust" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "lambda_role" {
+  name               = "cleanup_lambda_role"
+  assume_role_policy = data.aws_iam_policy_document.lambda_role_trust.json
+}
+
+data "aws_s3_object" "lambda" {
+  bucket = "provisioning-files-us-west-2-91d5bbcabe"
+  key    = "cloud-cspm-lambda.zip"
+}
+
+resource "aws_lambda_function" "cleanup_lambda" {
+  s3_bucket         = data.aws_s3_object.lambda.bucket
+  s3_key            = data.aws_s3_object.lambda.key
+  s3_object_version = data.aws_s3_object.lambda.version_id
+  function_name     = "cleanup_lambda"
+  role              = aws_iam_role.lambda_role.arn
+  handler           = "lambda_function.lambda_handler"
+
+  runtime = "python3.9"
+
+  environment {
+    variables = {
+      secret_name = aws_secretsmanager_secret.falcon_secret.name,
+      secret_region = data.aws_region.current.name,
+      time_stamp = timestamp()
+    }
+  }
+}
+
+resource "aws_cloudwatch_event_rule" "lambda_trigger_rule" {
+  name                = "trigger-cleanup-lambda"
+  description         = "Trigger the clean up lambda function"
+  schedule_expression = "rate(60 minutes)"
+}
+
+resource "aws_cloudwatch_event_target" "rule_target" {
+  rule      = aws_cloudwatch_event_rule.lambda_trigger_rule.name
+  target_id = "TriggerCleanupLambda"
+  arn       = aws_lambda_function.cleanup_lambda.arn
+}
+
+resource "aws_lambda_permission" "allow_lambda_trigger" {
+    statement_id = "AllowExecutionFromEventBridge"
+    action = "lambda:InvokeFunction"
+    function_name = aws_lambda_function.cleanup_lambda.function_name
+    principal = "events.amazonaws.com"
+    source_arn = aws_cloudwatch_event_rule.lambda_trigger_rule.arn
 }
