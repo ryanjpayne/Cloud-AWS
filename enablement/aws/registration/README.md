@@ -15,7 +15,9 @@ One or more of these default roles:
 - CSPM Misconfiguration Manager
 
 ### Prerequisites
-CrowdStrike API Client ID and Secret with the `CSPM REGISTRATION` scope and `Read` and `Write` permissions enabled. 
+CrowdStrike API Client ID and Secret with the the following scope:  
+`CSPM Registration` scope with `Read` and `Write` permissions  
+`Installation Tokens` scope with `Read` permissions  
 For more info, see [API clients](https://falcon.crowdstrike.com/documentation/page/a2a7fc0e/crowdstrike-oauth2-based-apis#mf8226da).
 
 **Note**: A CSPM Admin or CSPM Analyst must obtain the API credentials from a Falcon Administrator to successfully register a cloud account.
